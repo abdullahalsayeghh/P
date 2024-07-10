@@ -25,7 +25,7 @@ class TRandom3;
 class TH1;
 class TH2;
 class TGraphErrors;
-class TF1;
+//class TF1;
 class TCanvas;
 class THStack;
 
@@ -36,6 +36,9 @@ class MbdQA: public SubsysReco
 
     //Default constructor
     MbdQA(const std::string &name="MbdQA");
+     
+    // destructor
+     ~MbdQA(); //override
 
     //Initialization, called for initialization
     int Init(PHCompositeNode *);
@@ -153,32 +156,32 @@ class MbdQA: public SubsysReco
     TH2 *h2_mbdqsum_bz;    // north q vs south q, vs bz
     TH2 *h2_mbdn; //number of event that have hits on South & North 
 
-    TH1 *h_emcale;
-    TH1 *h_emcaltimecut;
-    TH1 *h_ohcale;
-    TH1 *h_ohcaltimecut;
-    TH1 *h_ihcale;
-    TH1 *h_ihcaltimecut;
-    TH1 *h_zdce;
+    TH1 *h_emcale{nullptr};
+    TH1 *h_emcaltimecut{nullptr};
+    TH1 *h_ohcale{nullptr};
+    TH1 *h_ohcaltimecut{nullptr};
+    TH1 *h_ihcale{nullptr};
+    TH1 *h_ihcaltimecut{nullptr};
+    TH1 *h_zdce{nullptr};
     TH1 *h_zdcse{nullptr};
     TH1 *h_zdcne{nullptr};
-    TH1 *h_zdctimecut;
+    TH1 *h_zdctimecut{nullptr};
 
-    TH1 *h_bz;
-    TH1 *h_bztrig[5]; // 5 MBDNS triggers
-    TH2 *h2_tt;
-    TH2 *h2_tq;
-    TH2 *h2_slew[128];
-    TH1 *h_cross;
+    TH1 *h_bz{nullptr};
+    TH1 *h_bztrig[5]{nullptr}; // 5 MBDNS triggers
+    TH2 *h2_tt{nullptr};
+    TH2 *h2_tq{nullptr};
+    TH2 *h2_slew[128]{nullptr};
+    TH1 *h_cross{nullptr};
 
     std::vector<uint64_t> mbdtrigbits;
 
     TCanvas *c_mbdt;    // Canvas to 
-    TH1 *hevt_mbdt[2];  // time in each mbd, per event
-    TF1 *gaussian;
-    THStack *hstack_bqs_bqn; //The total charge on the south and North MBD; bqn & bqs [A.U.]
+    TH1 *hevt_mbdt[2]{nullptr};  // time in each mbd, per event
+    //TF1 *gaussian{nullptr};
+    THStack *hstack_bqs_bqn{nullptr}; //The total charge on the south and North MBD; bqn & bqs [A.U.]
 
-    TH1 *h_bpmt_bad;
+    TH1 *h_bpmt_bad{nullptr};
 
     std::map<int,int> _pids;  // PIDs of tracks in the MBD
 

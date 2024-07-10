@@ -1,5 +1,5 @@
 #ifdef __CINT__
 
-#pragma link C++ class MbdQALinkDef+;
+#pragma link C++ class MbdQA+;
 
 #endif

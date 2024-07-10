@@ -73,7 +73,7 @@ MbdQA::MbdQA(const std::string &name):
 }
 
 //---------------------------------------------------------->
-MbdQA::~MbdQA():
+MbdQA::~MbdQA()
 {
   std::cout << "MbdQA::~MbdQA() :) Calling deconstructors" << std::endl;
 }
@@ -179,7 +179,7 @@ int MbdQA::Init(PHCompositeNode *topNode)
     hevt_mbdt[iarm] = new TH1F(name,title,200,7.5,11.5);
     hevt_mbdt[iarm]->SetLineColor(4);
   }
-  hstack_bqs_bqn = new THStack("hstack_bqs&bqn", "The total charge on the south and North MBD; bqn & bqs [A.U.]");
+  //hstack_bqs_bqn = new THStack("hstack_bqs_bqn", "The total charge on the south and North MBD; bqn & bqs [A.U.]");
   
  
   h_mbdqsum = new TH1F("h_mbdqsum","BBC/MBD north + south charge sum",3000,0.,3000.);
@@ -226,8 +226,8 @@ int MbdQA::Init(PHCompositeNode *topNode)
   h2_tq = new TH2F("h2_tq","ch vs tq",900,-150,150,128,-0.5,128-0.5);
   h2_tt = new TH2F("h2_tt","ch vs tt",900,-150,150,128,-0.5,128-0.5);
 
-  gaussian = new TF1("gaussian","gaus",0,20);
-  gaussian->FixParameter(2,0.05);   // set sigma to 50 ps
+ // gaussian = new TF1("gaussian","gaus",0,20);
+  //gaussian->FixParameter(2,0.05);   // set sigma to 50 ps
 
   c_mbdt = new TCanvas("c_mbdt","MBD Times",1200,800);
   c_mbdt->Divide(1,2);
@@ -358,7 +358,7 @@ void MbdQA::GetNodes(PHCompositeNode *topNode)
      // return Fun4AllReturnCodes::ABORTEVENT;
     }
      // Get Truth Centrality Info
-     f_bimp = _evtheader->get_ImpactParameter();
+     f_bimp  = _evtheader->get_ImpactParameter();
      f_ncoll = _evtheader->get_ncoll();
      f_npart = _evtheader->get_npart();
 
@@ -369,7 +369,7 @@ void MbdQA::GetNodes(PHCompositeNode *topNode)
 
      // return Fun4AllReturnCodes::ABORTEVENT;
     }
-  cent = centInfo->get_centile(CentralityInfo::PROP::mbd_NS);
+  cent = _centInfo->get_centile(CentralityInfo::PROP::mbd_NS);
 
 /*
   MinimumBiasInfo *minBiasInfo = findNode::getClass<MinimumBiasInfo>(topNode,"MinimumBiasInfo");
@@ -397,7 +397,7 @@ void MbdQA::GetNodes(PHCompositeNode *topNode)
   evtPlaneAngle = _evtheader-> get_EventPlaneAngle();
   cout <<" evtPlaneAngle = " <<endl;
   
-  f_bimp = evtHeader->get_ImpactParameter();
+  f_bimp = _evtheader->get_ImpactParameter();
   if(f_bimp >= 0.00  && f_bimp < 4.88) cent = 0.05;
   if(f_bimp >= 4.88  && f_bimp < 6.81) cent = 0.15;
   if(f_bimp >= 6.81  && f_bimp < 8.40) cent = 0.25;
@@ -418,7 +418,7 @@ void MbdQA::GetNodes(PHCompositeNode *topNode)
       pmt_x[128].push_back(_mbdgeom->get_x(i));
       pmt_y[128].push_back(_mbdgeom->get_y(i));
       pmt_z[128].push_back(_mbdgeom->get_z(i));
-      pmt_r.push_back(_mbdgeom->get_r(i));
+      pmt_r[128].push_back(_mbdgeom->get_r(i));
       pmt_phi[128].push_back(_mbdgeom->get_phi(i));
 
     }
@@ -443,12 +443,12 @@ int MbdQA::ResetEvent(PHCompositeNode *topNode)
 }
 
 //------------------------------------unused------------------------------------>
-/*int MbdQA::EndRun(const int runnumber)
+int MbdQA::EndRun(const int runnumber)
 {
   std::cout << "MbdQA::EndRun(const int runnumber) Ending Run for Run " << runnumber << std::endl;
   return Fun4AllReturnCodes::EVENT_OK;
 }
-*/
+
 //____________________________________________________________________________..
 int MbdQA::End(PHCompositeNode *topNode)
 {
@@ -596,8 +596,8 @@ void MbdQA::CheckDST(PHCompositeNode *topNode)
   h_mbdqsum->Fill( (bqn+bqs)*r );
   h_mbdqtot[0]->Fill( bqs*r );
   h_mbdqtot[1]->Fill( bqn*r );
-  hstack_bqs_bqn->Add( h_mbdqtot[0]);
-  hstack_bqs_bqn->Add( h_mbdqtot[1]);
+  //hstack_bqs_bqn->Add( h_mbdqtot[0]);
+  //hstack_bqs_bqn->Add( h_mbdqtot[1]);
   
   h2_mbdqsum->Fill( bqn*r, bqs*r );
 
