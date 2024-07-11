@@ -50,7 +50,7 @@
 #include <cstdio>
 
 // Centrality
-#include <centrality/CentralityInfo.h>
+//#include <centrality/CentralityInfo.h>
 
 // Minimum Bias
 #include <calotrigger/MinimumBiasInfo.h>
@@ -61,12 +61,12 @@ using namespace MbdDefs;
 
 //---------------------------------------------->
 MbdQA::MbdQA(const std::string &name):
- SubsysReco(name)
-    ,T(0)
-    ,T2(0)
-    ,_tres( 0.05 ) //time in each mbd, per event
-    ,_savefname("MbdQA.root")
-    ,_savefile( 0 )
+  SubsysReco(name)
+  ,T(0)
+  ,T2(0)
+  ,_tres( 0.05 ) //time in each mbd, per event
+  ,_savefname("MbdQA.root")
+  ,_savefile( 0 )
 
 {
   cout << "MbdQA::MbdQA(const std::string &name) :)  Calling constuctor" << std::endl;
@@ -83,7 +83,7 @@ int MbdQA::Init(PHCompositeNode *topNode)
 {
   cout << PHWHERE << " Saving to file " << _savefname << endl;
   _savefile = new TFile(_savefname.c_str(),"RECREATE");
-  
+
   T = new TTree("T","MbdQA");
   T->Branch("run",&f_run);
   T->Branch("ch",&f_ch);
@@ -100,8 +100,8 @@ int MbdQA::Init(PHCompositeNode *topNode)
   T ->Branch("f_bz",&f_bz);
   T-> Branch("f_vt",&f_vt);
   T->Branch("f_vr",&f_vr);
-  
- // MbdGeom real
+
+  // MbdGeom real
   T->Branch("pmt_x",&pmt_x[128]);
   T->Branch("pmt_y",&pmt_y[128]);
   T->Branch("pmt_z",&pmt_z[128]);
@@ -110,32 +110,32 @@ int MbdQA::Init(PHCompositeNode *topNode)
 
 
   T ->Branch("f_bz",&f_bz);
- 
+
   T->Branch("bq",&bq);
   T->Branch("bqs",&f_mbdq[0]);
   T->Branch("bqn",&f_mbdq[1]);
   T->Branch("bns",&f_mbdn[0]);
   T->Branch("bnn",&f_mbdn[1]);
-  
-  
+
+
   T->Branch("mbdt0",&f_mbdt0);
   T->Branch("bts",&f_mbdt[0]);   
   T->Branch("btn",&f_mbdt[1]);
   T->Branch("bts_EARhit",&f_mbdt_EARhit[0]);   
   T->Branch("btn_EARhit",&f_mbdt_EARhit[1]);
-  
-  
- //the output from PMTs
- // T->Branch("bq",&bq); //get_q
+
+
+  //the output from PMTs
+  // T->Branch("bq",&bq); //get_q
   T->Branch("bt",&bt); //get_time
   T->Branch("btt",&btt);// get_tt 
   T->Branch("btq",&btq);//get_tq
-  
-  
-   //T->Branch("cent",&cent);
- // T-> Branch("evtPlaneAngle",&evtPlaneAngle);
- 
-  
+
+
+  //T->Branch("cent",&cent);
+  // T-> Branch("evtPlaneAngle",&evtPlaneAngle);
+
+
   T2 = new TTree("T2","MbdQA Event Tree");
   T2->Branch("run",&f_run,"run/I");
   T2->Branch("evt",&f_evt,"evt/I");
@@ -173,20 +173,20 @@ int MbdQA::Init(PHCompositeNode *topNode)
     title = "mbd charge, arm "; title += iarm; title += " vs z";
     h2_mbdqtot_bz[iarm] = new TH2F(name,title,20,-50.,50.,1000,0.,3000.);
 
-    
+
     name = "hevt_mbdt"; name += iarm;
     title = "mbd times, arm "; title += iarm;
     hevt_mbdt[iarm] = new TH1F(name,title,200,7.5,11.5);
     hevt_mbdt[iarm]->SetLineColor(4);
   }
   //hstack_bqs_bqn = new THStack("hstack_bqs_bqn", "The total charge on the south and North MBD; bqn & bqs [A.U.]");
-  
- 
+
+
   h_mbdqsum = new TH1F("h_mbdqsum","BBC/MBD north + south charge sum",3000,0.,3000.);
   h2_mbdqsum = new TH2F("h2_mbdqsum","north MBDQ vs South MBDQ",1400,0.,1400.,1400,0.,1400.);
 
   h2_mbdqsum_bz = new TH2F("h2_mbdqsum_bz","MBDQsum vs z",20,-50.,50.,1000,0.,3000.);
-  
+
   h2_mbdn = new TH2F("h2_mbdn"," number of event that have hits on MBDSouth & MBDNorth; South MBD Nhits; North MBD Nhits ", 70,0,70,70,0,70);
 
   h_zdce = new TH1F("h_zdce","ZDC Energy",820,-50,4050);
@@ -216,7 +216,7 @@ int MbdQA::Init(PHCompositeNode *topNode)
 
   h_bpmt_bad = new TH1F("h_bpmt_bad","PMT for BAD MBD z-vertex",128,0,128);
 
-  
+
   for (int ipmt=0; ipmt<128; ipmt++)
   {
     name = "h2_slew"; name += ipmt;
@@ -226,7 +226,7 @@ int MbdQA::Init(PHCompositeNode *topNode)
   h2_tq = new TH2F("h2_tq","ch vs tq",900,-150,150,128,-0.5,128-0.5);
   h2_tt = new TH2F("h2_tt","ch vs tt",900,-150,150,128,-0.5,128-0.5);
 
- // gaussian = new TF1("gaussian","gaus",0,20);
+  // gaussian = new TF1("gaussian","gaus",0,20);
   //gaussian->FixParameter(2,0.05);   // set sigma to 50 ps
 
   c_mbdt = new TCanvas("c_mbdt","MBD Times",1200,800);
@@ -240,7 +240,7 @@ int MbdQA::Init(PHCompositeNode *topNode)
   mbdtrigbits.push_back(0x4000);    // MBD10
 
 
-  
+
   return Fun4AllReturnCodes::EVENT_OK;
 }
 
@@ -262,7 +262,7 @@ int MbdQA::InitRun(PHCompositeNode *topNode)
 int MbdQA::process_event(PHCompositeNode *topNode)
 {
   // Get the raw gl1 data from event combined DST
- Gl1Packet* _gl1raw = findNode::getClass<Gl1Packet>(topNode, "GL1Packet");
+  Gl1Packet* _gl1raw = findNode::getClass<Gl1Packet>(topNode, "GL1Packet");
 
   if(!_gl1raw && f_evt<4) cout << PHWHERE << " Gl1Packet node not found on node tree" << endl;
 
@@ -300,7 +300,7 @@ int MbdQA::process_event(PHCompositeNode *topNode)
 
     }
 
-   }
+  }
 
   // Initialize Variables
   f_mbdn[0] = 0;
@@ -316,8 +316,8 @@ int MbdQA::process_event(PHCompositeNode *topNode)
   hevt_mbdt[0]->Reset();
   hevt_mbdt[1]->Reset();
 
-  
-  
+
+
 
   CheckDST(topNode);
 
@@ -333,70 +333,71 @@ void MbdQA::GetNodes(PHCompositeNode *topNode)
 
   //MbdPmt information
   _mbdpmts = findNode::getClass<MbdPmtContainer>(topNode,"MbdPmtContainer"); 
-    if(!_mbdpmts && f_evt<4) 
-      {
-        cout << PHWHERE << "Aborting : MbdPmtContainer node not found on node tree" << endl;
- 
-      //return Fun4AllReturnCodes::ABORTEVENT;
-     }
+  if(!_mbdpmts && f_evt<4) 
+  {
+    cout << PHWHERE << "Aborting : MbdPmtContainer node not found on node tree" << endl;
+
+    //return Fun4AllReturnCodes::ABORTEVENT;
+  }
 
   //MbdOut 
   _mbdout = findNode::getClass<MbdOut>(topNode,"MbdOut"); 
   if(!_mbdout && f_evt<4) 
-    { 
-      cout << PHWHERE << " Aborting : MbdOut node not found on node tree" << endl;
- 
-      //return Fun4AllReturnCodes::ABORTEVENT;
-    }
+  { 
+    cout << PHWHERE << " Aborting : MbdOut node not found on node tree" << endl;
+
+    //return Fun4AllReturnCodes::ABORTEVENT;
+  }
 
   //Get DST object
   _evtheader = findNode::getClass<EventHeader>(topNode,"EventHeader"); 
   if (!_evtheader && f_evt<10) 
-    {
-      cout << PHWHERE << " Aborting : EventHeader node not found on node tree" << endl;
- 
-     // return Fun4AllReturnCodes::ABORTEVENT;
-    }
-     // Get Truth Centrality Info
-     f_bimp  = _evtheader->get_ImpactParameter();
-     f_ncoll = _evtheader->get_ncoll();
-     f_npart = _evtheader->get_npart();
+  {
+    cout << PHWHERE << " Aborting : EventHeader node not found on node tree" << endl;
 
-  _centInfo = findNode::getClass<CentralityInfo>(topNode,"CentralityInfo");
-  if(!_centInfo)
-    {
-      cout << PHWHERE << "Aborting: CentralityInfo node not found on node tree" << std::endl;
+    // return Fun4AllReturnCodes::ABORTEVENT;
+  }
+  // Get Truth Centrality Info
+  f_bimp  = _evtheader->get_ImpactParameter();
+  f_ncoll = _evtheader->get_ncoll();
+  f_npart = _evtheader->get_npart();
 
-     // return Fun4AllReturnCodes::ABORTEVENT;
-    }
+  /* _centInfo = findNode::getClass<CentralityInfo>(topNode,"CentralityInfo");   //unused
+     if(!_centInfo)
+     {
+     cout << PHWHERE << "Aborting: CentralityInfo node not found on node tree" << std::endl;
+
+  // return Fun4AllReturnCodes::ABORTEVENT;
+  }
   cent = _centInfo->get_centile(CentralityInfo::PROP::mbd_NS);
 
-/*
-  MinimumBiasInfo *minBiasInfo = findNode::getClass<MinimumBiasInfo>(topNode,"MinimumBiasInfo");
-  Bool_t isMinBias = (minBiasInfo) ? minBiasInfo->isAuAuMinimumBias() : false;
-  if(!minBiasInfo || !isMinBias)
-  {
-    std::cout << PHWHERE << "caloTreeGen::process_event: is not MinimumBias" << std::endl;
-    return Fun4AllReturnCodes::ABORTEVENT;
-  }
-  */
-  
+*/
+  /*
+     MinimumBiasInfo *minBiasInfo = findNode::getClass<MinimumBiasInfo>(topNode,"MinimumBiasInfo");
+     Bool_t isMinBias = (minBiasInfo) ? minBiasInfo->isAuAuMinimumBias() : false;
+     if(!minBiasInfo || !isMinBias)
+     {
+     std::cout << PHWHERE << "caloTreeGen::process_event: is not MinimumBias" << std::endl;
+     return Fun4AllReturnCodes::ABORTEVENT;
+     }
+     */
+
   //MBD pmg geometry 
   _mbdgeom = findNode::getClass<MbdGeom>(topNode, "MbdGeom");
   if(!_mbdgeom)
-    {
-      cout << "Aborting: MbdGeom node not found on node tree" << endl;
-      //return Fun4AllReturnCodes::ABORTEVENT;
-    }
+  {
+    cout << "Aborting: MbdGeom node not found on node tree" << endl;
+    //return Fun4AllReturnCodes::ABORTEVENT;
+  }
 
-   f_npmt = _mbdpmts -> get_npmt();        
+  f_npmt = _mbdpmts -> get_npmt();        
   cout << "nPMTS =  "<< f_npmt << endl;
-  
+
   f_bz = _mbdout->get_zvtx();
-  
-  evtPlaneAngle = _evtheader-> get_EventPlaneAngle();
-  cout <<" evtPlaneAngle = " <<endl;
-  
+
+  //evtPlaneAngle = _evtheader-> get_EventPlaneAngle();   //unused
+  //cout <<" evtPlaneAngle = " <<endl;
+
   f_bimp = _evtheader->get_ImpactParameter();
   if(f_bimp >= 0.00  && f_bimp < 4.88) cent = 0.05;
   if(f_bimp >= 4.88  && f_bimp < 6.81) cent = 0.15;
@@ -409,31 +410,31 @@ void MbdQA::GetNodes(PHCompositeNode *topNode)
   if(f_bimp >= 13.68 && f_bimp < 14.65) cent = 0.85;
 
   for(int i = 0; i < nPMTs; i++)
-    {
-      MbdPmtHit* mbdpmt = _mbdpmts -> get_pmt(i);        // grab ith pmt (changed from pmtID)
-      
-      //store quantities of interest
-     // bq.push_back(_mbdpmt -> get_q());
-     // bt.push_back(_mbdpmt -> get_time());
-      pmt_x[128].push_back(_mbdgeom->get_x(i));
-      pmt_y[128].push_back(_mbdgeom->get_y(i));
-      pmt_z[128].push_back(_mbdgeom->get_z(i));
-      pmt_r[128].push_back(_mbdgeom->get_r(i));
-      pmt_phi[128].push_back(_mbdgeom->get_phi(i));
+  {
+    MbdPmtHit* mbdpmt = _mbdpmts -> get_pmt(i);        // grab ith pmt (changed from pmtID)
 
-    }
-  
+    //store quantities of interest
+    // bq.push_back(_mbdpmt -> get_q());
+    // bt.push_back(_mbdpmt -> get_time());
+    pmt_x[128].push_back(_mbdgeom->get_x(i));
+    pmt_y[128].push_back(_mbdgeom->get_y(i));
+    pmt_z[128].push_back(_mbdgeom->get_z(i));
+    pmt_r[128].push_back(_mbdgeom->get_r(i));
+    pmt_phi[128].push_back(_mbdgeom->get_phi(i));
+
+  }
+
   T -> Fill();
-  
-   
- // return Fun4AllReturnCodes::EVENT_OK;
+
+
+  // return Fun4AllReturnCodes::EVENT_OK;
 }
 
 //------------------------------------------------------------>
 int MbdQA::ResetEvent(PHCompositeNode *topNode)
 {
- // bq.clear();
- // bt.clear();
+  // bq.clear();
+  // bt.clear();
   pmt_x[128].clear();
   pmt_y[128].clear();
   pmt_z[128].clear();
@@ -455,20 +456,20 @@ int MbdQA::End(PHCompositeNode *topNode)
   cout << "MbdQA::End(PHCompositeNode *topNode) Filing the histograms" << endl;
   _savefile->cd();
 
-   Double_t nevents = h_mbdqsum->Integral();
+  Double_t nevents = h_mbdqsum->Integral();
   h_mbdqsum->Fill(-1000,nevents); // underflow bin keeps track of nevents
   h_mbdqtot[0]->Fill(-1000,nevents); // underflow bin keeps track of nevents
   h_mbdqtot[1]->Fill(-1000,nevents); // underflow bin keeps track of nevents
- 
-  
-  
+
+
+
   Double_t norm = 1.0/nevents;
   h_mbdqsum->Scale( norm );
   h2_mbdqsum->Scale( norm );
 
   h_mbdqtot[0]->Scale( norm );
   h_mbdqtot[1]->Scale( norm );
-  
+
 
   for (int ipmt=0; ipmt<MBD_N_PMT; ipmt++)
   {
@@ -495,25 +496,25 @@ int MbdQA::End(PHCompositeNode *topNode)
 
 void MbdQA::CheckDST(PHCompositeNode *topNode)
 {
-   cout << "MbdQA::CheckDST(PHCompositeNode *topNode) do not panic you are in CheckDST" << endl;
-  
+  cout << "MbdQA::CheckDST(PHCompositeNode *topNode) do not panic you are in CheckDST" << endl;
+
   // bqs = _mbdout->get_q(0)/120.;
   // bqn = _mbdout->get_q(1)/120.;
   bqs = _mbdout->get_q(0);
   bqn = _mbdout->get_q(1);
-  
-  
+
+
   bts = _mbdout->get_time(0);
   btn = _mbdout->get_time(1);
-  
+
   f_bz = _mbdout->get_zvtx();
   h_bz->Fill( f_bz );
-  
+
   bns = _mbdout->get_npmt(0);
   bnn = _mbdout->get_npmt(1);
   cout<< " bns = "<< bns <<"\t" << "bnn = " << bnn << endl;
-   
-  
+
+
   T->Fill();
   // Check the MbdVertexMap
   MbdVertexMap *mbdvtxmap = findNode::getClass<MbdVertexMap>(topNode, "MbdVertexMap");
@@ -598,28 +599,28 @@ void MbdQA::CheckDST(PHCompositeNode *topNode)
   h_mbdqtot[1]->Fill( bqn*r );
   //hstack_bqs_bqn->Add( h_mbdqtot[0]);
   //hstack_bqs_bqn->Add( h_mbdqtot[1]);
-  
+
   h2_mbdqsum->Fill( bqn*r, bqs*r );
 
   h2_mbdqtot_bz[0]->Fill( f_bz, bqs );
   h2_mbdqtot_bz[1]->Fill( f_bz, bqn );
   h2_mbdqsum_bz->Fill( f_bz, bqn+bqs );
-  
+
   h2_mbdn->Fill( bns, bnn );
 
   cout << "nPMTs " << _mbdpmts->get_npmt() << endl;
-  
+
   // Fill info from each PMT
   //for (int ipmt=0; ipmt<_mbdpmts->get_npmt(); ipmt++)
   for (int ipmt=0; ipmt<128; ipmt++)
   {
     int arm = ipmt/64;
     //Float_t q = _mbdpmts->get_pmt(ipmt)->get_q()/120.;
-     bq = _mbdpmts->get_pmt(ipmt)->get_q();
-     bt = _mbdpmts->get_pmt(ipmt)->get_time();
-     btt = _mbdpmts->get_pmt(ipmt)->get_tt();
-     btq = _mbdpmts->get_pmt(ipmt)->get_tq();
-     phi = _mbdgeom->get_phi(ipmt);   // get phi angle
+    bq = _mbdpmts->get_pmt(ipmt)->get_q();
+    bt = _mbdpmts->get_pmt(ipmt)->get_time();
+    btt = _mbdpmts->get_pmt(ipmt)->get_tt();
+    btq = _mbdpmts->get_pmt(ipmt)->get_tq();
+    phi = _mbdgeom->get_phi(ipmt);   // get phi angle
 
     if ( fabs(bt) < 25. )
     {
@@ -631,7 +632,7 @@ void MbdQA::CheckDST(PHCompositeNode *topNode)
 
     h2_slew[ipmt]->Fill( bq, bt - f_mbdt[arm] );
     //cout << ipmt << ":\t" << bq << "\t" << bt << endl;
- 
+
   }
 
   h_bz->Fill( f_bz );
@@ -647,10 +648,10 @@ void MbdQA::CheckDST(PHCompositeNode *topNode)
   //process_gl1( topNode );
   //process_zdc( topNode );
   /*
-  process_emcal( topNode );
-  process_ohcal( topNode );
-  process_ihcal( topNode );
-  */
+     process_emcal( topNode );
+     process_ohcal( topNode );
+     process_ihcal( topNode );
+     */
 }
 
 int MbdQA::Getpeaktime(TH1 * h)
@@ -830,7 +831,7 @@ void MbdQA::process_ihcal( PHCompositeNode *topNode )
 //------------------------------------------------------->
 int MbdQA::Reset(PHCompositeNode *topNode)
 {
-  
+
   //bq.clear();
   //bt.clear();
   pmt_x[128].clear();
@@ -838,8 +839,8 @@ int MbdQA::Reset(PHCompositeNode *topNode)
   pmt_z[128].clear();
   pmt_r[128].clear();
   pmt_phi[128].clear();
- 
-  
+
+
   return Fun4AllReturnCodes::EVENT_OK;
 }
 

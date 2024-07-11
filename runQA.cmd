@@ -32,9 +32,9 @@ dst_fname=$1
 
 if echo ${dst_fname} | grep '.root$'
 then
-  out_fname=`echo $dst_fname | sed 's/^.*DST/CHECK/'`
+  out_fname=`echo $dst_fname | sed 's/^.*DST/MbdQA/'`
 else
-  out_fname=`head -1 ${dst_fname} |  sed 's/^.*DST/CHECK/' | sed 's/-[0-9]*.root/.root/'`
+  out_fname=`head -1 ${dst_fname} |  sed 's/^.*DST/MbdQA/' | sed 's/-[0-9]*.root/.root/'`
   #out_fname=`echo $out_fname |  sed 's/\.lsit$/.root/'`
 fi
 echo $out_fname
