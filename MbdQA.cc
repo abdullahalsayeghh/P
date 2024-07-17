@@ -75,6 +75,15 @@ MbdQA::MbdQA(const std::string &name):
 //---------------------------------------------------------->
 MbdQA::~MbdQA()
 {
+  for (int i = 0; i < 128; i++)
+  {
+    //all the MBD histograms should be deleted here 
+  }
+  for (int i = 0; i < 128; i++)
+  {
+    //all the subdetactors  histograms should be deleted here 
+  }
+
   std::cout << "MbdQA::~MbdQA() :) Calling deconstructors" << std::endl;
 }
 
@@ -240,8 +249,8 @@ int MbdQA::Init(PHCompositeNode *topNode)
   mbdtrigbits.push_back(0x4000);    // MBD10
 
 
-
-  return Fun4AllReturnCodes::EVENT_OK;
+   return 0;
+  //return Fun4AllReturnCodes::EVENT_OK;
 }
 
 //-------------------------------------------------------------------------->
@@ -503,9 +512,12 @@ void MbdQA::CheckDST(PHCompositeNode *topNode)
   bqs = _mbdout->get_q(0);
   bqn = _mbdout->get_q(1);
 
+  cout<< " bqs = "<< bqs <<"\t" << "bqn = " << bqn << endl;
+
 
   bts = _mbdout->get_time(0);
   btn = _mbdout->get_time(1);
+  cout<< " bts = "<< bts <<"\t" << "btn = " << btn << endl;
 
   f_bz = _mbdout->get_zvtx();
   h_bz->Fill( f_bz );

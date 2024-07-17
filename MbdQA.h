@@ -25,7 +25,7 @@ class TRandom3;
 class TH1;
 class TH2;
 class TGraphErrors;
-//class TF1;
+class TF1;
 class TCanvas;
 class THStack;
 
@@ -36,30 +36,30 @@ class MbdQA: public SubsysReco
 
     //Default constructor
     MbdQA(const std::string &name="MbdQA");
-
+     
     // destructor
-    ~MbdQA(); //override
+     ~MbdQA() override;
 
     //Initialization, called for initialization
-    int Init(PHCompositeNode *);
+    int Init(PHCompositeNode *) override;
 
     //Initialization at start of every run
-    int InitRun(PHCompositeNode *);
+    int InitRun(PHCompositeNode *)  override;
 
     //Process Event, called for each event
-    int process_event(PHCompositeNode *);
+    int process_event(PHCompositeNode *) override;
 
     ///Clean up internals after each event.
-    int ResetEvent(PHCompositeNode *topNode); /*override*/
+    int ResetEvent(PHCompositeNode *topNode) override;
 
     /// Called at the end of each run.
-    int EndRun(const int runnumber);  /*override*/
+    int EndRun(const int runnumber)  override;
 
     //End, write and close files
-    int End(PHCompositeNode *);
+    int End(PHCompositeNode *) override;
 
     // Reset
-    int Reset(PHCompositeNode * /*topNode*/); /*override*/
+    int Reset(PHCompositeNode * /*topNode*/) override;
 
     void Print(const std::string &what = "ALL") const override;
 
@@ -117,11 +117,11 @@ class MbdQA: public SubsysReco
     Float_t  f_vr;
 
     // MbdGeom real
-    std::vector<uint64_t> pmt_x[128]{};
-    std::vector<uint64_t> pmt_y[128]{};
-    std::vector<uint64_t> pmt_z[128]{};
-    std::vector<uint64_t> pmt_r[128]{};
-    std::vector<uint64_t> pmt_phi[128]{};
+     std::vector<uint64_t> pmt_x[128]{};
+     std::vector<uint64_t> pmt_y[128]{};
+     std::vector<uint64_t> pmt_z[128]{};
+     std::vector<uint64_t> pmt_r[128]{};
+     std::vector<uint64_t> pmt_phi[128]{};
 
 
     Short_t  f_mbdn[2];  // num hits for each arm (north and south)
@@ -144,7 +144,7 @@ class MbdQA: public SubsysReco
     Float_t bns;
     Float_t bnn;
 
-    // Float_t  evtPlaneAngle;
+   // Float_t  evtPlaneAngle;
 
 
     TH1 *h_mbdq[128];   // q in each tube
@@ -197,7 +197,7 @@ class MbdQA: public SubsysReco
     MbdOut* _mbdout;
     MbdPmtContainer* _mbdpmts;
     Gl1Packet* _gl1raw;
-    // CentralityInfo* _centInfo;
+   // CentralityInfo* _centInfo;
     MbdGeom* _mbdgeom;
 
 };
